@@ -1,0 +1,216 @@
+﻿@page
+@model ProfileModel
+@{
+    ViewData["Title"] = "Twój profil";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+@using Microsoft.AspNetCore.Identity
+@using Czytnik_Model.Models
+@inject UserManager<User> UserManager
+
+<section class="user wrapper">
+    <header class="user__header">
+        <figure class="user__figure">
+            <img src="~/assets/img/defaultProfilePicture.png" class="user__image" />
+        </figure>
+        <p class="user__username">@User.Identity.Name</p>
+        <p class="user__name">Bartek Pawlak</p>
+    </header>
+    <div class="user__info">
+        <h2 class="heading-line heading-line--both user__info-heading">Coś o Tobie</h2>
+        <table class="user__table">
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Imię:</td>
+                <td class="user__table-column user__table-column--data">Bartłomiej</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Drugie imię:</td>
+                <td class="user__table-column user__table-column--data">Piotr</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Nazwisko:</td>
+                <td class="user__table-column user__table-column--data">Pawlak</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Data urodzenia:</td>
+                <td class="user__table-column user__table-column--data">27.12.2099</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Email:</td>
+                <td class="user__table-column user__table-column--data">bazyl@mamak.com</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Numer telefonu:</td>
+                <td class="user__table-column user__table-column--data user__table-column--empty">brak</td>
+            </tr>
+        </table>
+        <a href="/User/Settings" class=" user__info-button button button--secondary">Ustawienia</a>
+    </div>
+    <div class="user__favourites">
+        <h2 class="heading-line heading-line--left user__favourites-heading">Twoje ulubione pozycje</h2>
+        <div class="user__favourites-list">
+            <a href="/Book/Index/69" class="user__favourites-item">
+                <figure class="user__favourites-figure">
+                    <img class="user__favourites-image" src="~/assets/img/history_category.png" />
+                </figure>
+                <p class="user__favourites-title">Psycho</p>
+                <p class="user__favourites-author">Robert Bloch</p>
+            </a>
+            <a href="/Book/Index/69" class="user__favourites-item">
+                <figure class="user__favourites-figure">
+                    <img class="user__favourites-image" src="~/assets/img/history_category.png" />
+                </figure>
+                <p class="user__favourites-title">Psycho</p>
+                <p class="user__favourites-author">Robert Bloch</p>
+            </a>
+            <a href="/Book/Index/69" class="user__favourites-item">
+                <figure class="user__favourites-figure">
+                    <img class="user__favourites-image" src="~/assets/img/fantasy_category.png" />
+                </figure>
+                <p class="user__favourites-title">Psycho</p>
+                <p class="user__favourites-author">Robert Bloch</p>
+            </a>
+            <a href="/Book/Index/69" class="user__favourites-item">
+                <figure class="user__favourites-figure">
+                    <img class="user__favourites-image" src="~/assets/img/history_category.png" />
+                </figure>
+                <p class="user__favourites-title">Psycho</p>
+                <p class="user__favourites-author">Robert Bloch</p>
+            </a>
+            <div class="user__favourites-item user__favourites-more">
+                <a href="/User/Favourites" class="moreLink">zobacz wszystkie...</a>
+            </div>
+        </div>
+    </div>
+    <div class="user__templates">
+        <h2 class="heading-line heading-line--left user__favourites-heading">Twoje szablony płatności</h2>
+        <div class="user__templates-container">
+            <details class="address-template" open>
+                <summary class="address-template__header">
+                    <h3 class="address-template__heading">Bartłomiej Pawlak</h3>
+                    <p class="address-template__post">34-600 Limanowa</p>
+                </summary>
+                <p class="address-template__address">Stróża 100 ul. Piotrowa</p>
+                <p class="address-template__email">bartek@email.com</p>
+                <p class="address-template__phone">500 100 100</p>
+            </details>
+            <details class="address-template">
+                <summary class="address-template__header">
+                    <h3 class="address-template__heading">Bartłomiej Pawlak</h3>
+                    <p class="address-template__post">34-600 Limanowa</p>
+                </summary>
+                <p class="address-template__address">Stróża 100 ul. Piotrowa</p>
+                <p class="address-template__email">bartek@email.com</p>
+                <p class="address-template__phone">500 100 100</p>
+            </details>
+            <a href="/User/Templates" class="address-template__button">+</a>
+        </div>
+        <a href="/User/Templates" class="moreLink">zobacz wszystkie szablony... </a>
+    </div>
+    <div class="user__orders">
+        <h2 class="heading-line heading-line--right user__favourites-heading">Historia zamówień</h2>
+        <div class="user__orders-container">
+            <div class="order">
+                <div class="order__info">
+                    <span class="order__date">21-12-2012</span><span class="order__number">Zamówienie nr #12529</span>
+                </div>
+                <ul class="order__items">
+                    <li class="order__item">
+                        <p class="order__title">O dwóch takich co ukradli księżyc I A A SSSS kkk k k kkkk</p>
+                        <span class="order__count">x2</span>
+                        <span class="order__price">68,90zł</span>
+                    </li>
+                    <li class="order__item">
+                        <p class="order__title">O trzech takich co ukradli słońce</p>
+                        <span class="order__count">x1</span>
+                        <span class="order__price">18,90zł</span>
+                    </li>
+                </ul>
+                <div class="order__wholePrice">64,00zł</div>
+            </div>
+            <div class="order">
+                <div class="order__info">
+                    <span class="order__date">21-12-2012</span><span class="order__number">Zamówienie nr #121529</span>
+                </div>
+                <ul class="order__items">
+                    <li class="order__item">
+                        <p class="order__title">Biblia</p>
+                        <span class="order__count">x1</span>
+                        <span class="order__price">68,90zł</span>
+                    </li>
+                </ul>
+                <div class="order__wholePrice">14,00zł</div>
+            </div>
+        </div>
+        <div class="order__more">
+            <a href="/User/Orders" class="moreLink">zobacz wszystkie zamówienia... </a>
+        </div>
+    </div>
+    <div class="user__reviews">
+        <h2 class="heading-line heading-line--left user__reviews-heading">Twoje oceny i recenzje</h2>
+        <a href="/User/Reviews" class="moreLink user__reviews-more">zobacz wszystkie recenzje... </a>
+        <ul class="user__reviews-container">
+            <li class="userReview">
+                <div class="userReview__header">
+                    <div>
+                        <svg class="userReview__icon icon" viewBox="0 0 32 32">
+                            <use xlink:href="/assets/svg/sprite.svg#icon-star"></use>
+                        </svg>
+                        <span class="userReview__rating">4</span>
+                    </div>
+                    <span class="userReview__date">02-12-2021</span>
+                </div>
+                <h3 class="userReview__title">Biblia dla Minecrafterów - <span class="userReview__author">Mojang</span></h3>
+                <p class="userReview__text">
+                    Bardzo fajna książka, Bogurodzica dziewica bogiem sławiena maryja u swego syna gospodzina matka wielebna maryja ziści nam spuści nam kyrie elejson
+                </p>
+            </li>
+            <li class="userReview">
+                <div class="userReview__header">
+                    <div>
+                        <svg class="userReview__icon icon" viewBox="0 0 32 32">
+                            <use xlink:href="/assets/svg/sprite.svg#icon-star"></use>
+                        </svg>
+                        <span class="userReview__rating">4</span>
+                    </div>
+                    <span class="userReview__date">02-12-2021</span>
+                </div>
+                <h3 class="userReview__title">Biblia dla Minecrafterów - <span class="userReview__author">Mojang</span></h3>
+                <p class="userReview__text">
+                    Bardzo fajna książka, Bogurodzica dziewica bogiem sławiena maryja u swego syna gospodzina matka wielebna maryja ziści nam spuści nam kyrie elejson
+                </p>
+            </li>
+            <li class="userReview">
+                <div class="userReview__header">
+                    <div>
+                        <svg class="userReview__icon icon" viewBox="0 0 32 32">
+                            <use xlink:href="/assets/svg/sprite.svg#icon-star"></use>
+                        </svg>
+                        <span class="userReview__rating">4</span>
+                    </div>
+                    <span class="userReview__date">02-12-2021</span>
+                </div>
+                <h3 class="userReview__title">Biblia dla Minecrafterów - <span class="userReview__author">Mojang</span></h3>
+                <p class="userReview__text">
+                    Bardzo fajna książka, Bogurodzica dziewica bogiem sławiena maryja u swego syna gospodzina matka wielebna maryja ziści nam spuści nam kyrie elejson
+                </p>
+            </li>
+            <li class="userReview">
+                <div class="userReview__header">
+                    <div>
+                        <svg class="userReview__icon icon" viewBox="0 0 32 32">
+                            <use xlink:href="/assets/svg/sprite.svg#icon-star"></use>
+                        </svg>
+                        <span class="userReview__rating">4</span>
+                    </div>
+                    <span class="userReview__date">02-12-2021</span>
+                </div>
+                <h3 class="userReview__title">Biblia dla Minecrafterów - <span class="userReview__author">Mojang</span></h3>
+                <p class="userReview__text">
+                    Bardzo fajna książka, Bogurodzica dziewica bogiem sławiena maryja u swego syna gospodzina matka wielebna maryja ziści nam spuści nam kyrie elejson
+                </p>
+            </li>
+        </ul>
+    </div>
+</section>

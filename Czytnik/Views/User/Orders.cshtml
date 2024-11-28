@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Twój profil - Zamówienia";
+}
+@model int
+<section class="wrapper user-orders">
+    <h2 class="heading-line heading-line--both">Zamówienia</h2>
+    <p class="small-paragraph">Lista wszystkich twoich zamówień i transakcji</p>
+    <div class="user-container user-container--orders">
+        <div class="sorting-header user-orders__sort">
+            <div class="sorting-header__counter">
+                Znaleziono <span id="ordersCount">@Model</span> zamówień
+            </div>
+            <div class="sorting-header__sort">
+                <label for="sort" class="sorting-header__sort-label">Sortuj według: </label>
+                <div class="sorting-header__sort-select-wrapper">
+                    <select name="Sort" id="sort" class="sorting-header__sort-select js-sorting-select">
+                        <option value="date_desc">Od najnowszych</option>
+                        <option value="date_asc">Od najstarszych</option>
+                        <option value="price_desc">Najwyższa kwota</option>
+                        <option value="price_asc">Najniższa kwota</option>
+                    </select>
+                    <svg class="sorting-header__sort-chevron" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <partial name="_LoadingSpinner" />
+        <div class="user-orders__container" id="userOrders">
+
+            @if (Model == 0)
+            {
+                <p>Brak wyników :(</p>
+            }
+        </div>
+    </div>
+    <button class="button button--secondary user-orders__button" id="moreButton">Załaduj więcej...</button>
+</section>
+<script src="~/js/user/userOrders.js"></script>

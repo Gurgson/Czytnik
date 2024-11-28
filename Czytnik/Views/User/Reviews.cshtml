@@ -1,0 +1,37 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Twój profil - Recenzje";
+}
+
+<section class="wrapper user-reviews">
+    <h2 class="heading-line heading-line--both">Recenzje i oceny</h2>
+    <p class="small-paragraph">Usuń lub edytuj swoje recenzje i oceny</p>
+    <div class="user-container user-container--reviews">
+        <div class="sorting-header user-reviews__sort">
+            <div class="sorting-header__counter">
+                Znaleziono <span id="reviewsCount">@Model</span> recenzje
+            </div>
+            <div class="sorting-header__sort">
+                <label for="sort" class="sorting-header__sort-label">Sortuj według: </label>
+                <div class="sorting-header__sort-select-wrapper">
+                    <select name="Sort" id="sort" class="sorting-header__sort-select js-sorting-select">
+                        <option value="date-desc">Od najnowszych</option>
+                        <option value="date-asc">Od najstarszych</option>
+                        <option value="rating-desc">Ocena malejąco</option>
+                        <option value="rating-asc">Ocena rosnąco</option>
+                    </select>
+                    <svg class="sorting-header__sort-chevron" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="user-reviews__container">
+            <partial name="_LoadingSpinner" />
+            <ul id="userReviews">
+            </ul>
+        </div>
+    </div>
+    <button id="moreButton" class="button button--secondary user-reviews__button">Załaduj więcej...</button>
+</section>
+<script src="~/js/user/userReviews.js"></script>

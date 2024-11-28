@@ -1,0 +1,43 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<section class="form form--register">
+    <div class="form__content">
+        <h2 class="form__heading">Zarejestruj się na <span class="form__heading--highlight">Czytnik</span></h2>
+        @* <button class="form__google">
+            Dołącz za pomocą Google
+        </button> *@
+        <form class="form__form" id="form" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            @* <p class="form__text">lub użyj swojego maila</p> *@
+            <div asp-validation-summary="All" class="form__warning"></div>
+            <label class="form__label" asp-for="Input.UserName">
+                <span asp-validation-for="Input.UserName" class="form__warning"></span>
+                <input asp-for="Input.UserName" type="text" placeholder="Nazwa użytkownika" class="form-control form__input" id="usernameInput" required />
+            </label>
+            <label class="form__label" asp-for="Input.Email">
+                <span asp-validation-for="Input.Email" class="form__warning"></span>
+                <input asp-for="Input.Email" type="email" placeholder="Email" class="form__input form-control" id="emailInput" required />
+            </label>
+            <label class="form__label" asp-for="Input.Password">
+                <span asp-validation-for="Input.Password" class="form__warning"></span>
+                <input asp-for="Input.Password" type="password" placeholder="Hasło" class="form-control form__input" id="passwordInput" required />
+            </label>
+            <label class="form__label" asp-for="Input.ConfirmPassword">
+                <span asp-validation-for="Input.ConfirmPassword" class="form__warning"></span>
+                <input asp-for="Input.ConfirmPassword" type="password" placeholder="Powtórz hasło" class="form-control form__input" id="password2Input" required />
+            </label>
+            <input type="submit" class="form__submit button button--medium" value="Zarejestruj się" />
+        </form>
+    </div>
+    <div class="form__side">
+        <h2 class="form__side-heading">Posiadasz już konto?</h2>
+        <p class="form__side-paragraph">Aby pozostać z nami w kontakcie, zaloguj się i zacznij korzystać z serwisu.</p>
+        <a class="form__side-button button button--transparent button--medium" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Zaloguj się</a>
+    </div>
+</section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

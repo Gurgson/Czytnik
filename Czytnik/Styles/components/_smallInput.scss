@@ -1,0 +1,45 @@
+.small-input {
+    &__label {
+        display: block;
+        width: 100%;
+        font-size: 1.3rem;
+        color: var(--color-grey);
+        margin-bottom: .4rem;
+        text-transform: uppercase;
+    }
+
+    &__input {
+        width: 100%;
+        padding: 1rem 1.1rem;
+        font-size: 1.3rem;
+        border: 1px solid var(--color-grey);
+        border-radius: 5px;
+        background-color: var(--color-white);
+        font-family: inherit;
+    }
+
+    &--error &__errorMessage{
+        display: block;
+    }
+    &--error {
+        input{
+            border-color: var(--color-warning);
+            color: var(--color-warning);
+        }
+    }
+
+    &__errorMessage {
+        color: var(--color-warning);
+        margin-bottom: .3rem;
+        display: none;
+    }
+}
+
+.small-form {
+            margin-top: 1.5rem;
+        margin-bottom: 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(21.5rem,1fr));
+        column-gap: 4rem;
+        row-gap: 2rem;
+}

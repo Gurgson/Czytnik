@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Twój profil - Ustawienia";
+}
+
+@model Czytnik_Model.ViewModels.UserSettingsViewModel
+
+<section class="user-settings wrapper">
+    <h2 class="heading-line heading-line--both user-settings__heading">Ustawienia</h2>
+    <p class="user-settings__paragraph small-paragraph">Zmień ustawienia swojego profilu i konta</p>
+    <div class="user-settings__error">@TempData["error"]</div>
+    <div class="user-settings__info">@TempData["info"]</div>
+    <div class="user-container user-container--settings">
+        <form enctype="multipart/form-data" class="user-settings__form settings-form" id="profileSettingsForm" method="post" asp-action="EditUser" >
+            <figure class="settings-form__figure">
+                <input type="file" accept="image/png, image/jpeg, image/gif" id="settingsImageInput" class="settings-form__image-input" name="file" asp-for="ProfilePath" />
+                @if (Model.ProfilePath == null || Model.ProfilePath == "")
+                {
+                    <img src="~/assets/img/defaultProfilePicture.png" id="settingsImage" class="settings-form__image" alt="profile picture" />
+                }
+                else
+                {
+                    <img src="~/uploads/@Model.ProfilePath" id="settingsImage" class="settings-form__image" alt="profile picture" />
+                }
+                <label for="settingsImageInput" class="settings-form__edit"></label>
+            </figure>
+            <h3 class="settings-form__heading">Ustawienia Profilu</h3>
+            <section class="settings-form__section small-form">
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Imię</span>
+                    <span class="small-input__errorMessage">Niepoprawne imię</span>
+                    <input type="text" class="small-input__input" value=@Model.FirstName name="firstName" asp-for="FirstName" />
+                </label>
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Drugie imię</span>
+                    <span class="small-input__errorMessage">Niepoprawne imię</span>
+                    <input type="text" class="small-input__input" value=@Model.SecondName name="secondName" asp-for="SecondName" />
+                </label>
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Nazwisko</span>
+                    <span class="small-input__errorMessage">Niepoprawne nazwisko</span>
+                    <input type="text" class="small-input__input" value=@Model.Surname name="surname" asp-for="Surname" />
+                </label>
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Data urodzenia</span>
+                    <span class="small-input__errorMessage">Niepoprawna data</span>
+                    <input type="date" class="small-input__input" asp-for="Birthdate" value=@(Model.Birthdate.HasValue ? Model.Birthdate.Value.ToString("yyyy-MM-dd"):"") min="1930-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" name="birthDate" />
+                </label>
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Numer telefonu</span>
+                    <span class="small-input__errorMessage">Niepoprawny numer telefonu</span>
+                    <input type="tel" class="small-input__input" asp-for="PhoneNumber" value=@Model.PhoneNumber name="phoneNumber" />
+                </label>
+            </section>
+            <h3 class="settings-form__heading">Ustawienia Konta</h3>
+            <section class="settings-form__section small-form">
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Nazwa użytkownika</span>
+                    <span class="small-input__errorMessage">Nazwa użytkownika musi posiadać minimum 8 znaków, literę lub cyfrę</span>
+                    <input type="text" class="small-input__input" value=@Model.Username name="username" asp-for="Username" />
+                </label>
+            </section>
+            <input disabled type="submit" class="button settings-form__button" value="ZAPISZ" id="profileSettingsButton" name="username" />
+        </form>
+        <form class="user-settings__form settings-form" id="passwordSettingsForm" method="post" asp-action="ChangePassword">
+            <h3 class="settings-form__heading">Ustawienia Hasła</h3>
+            <section class="settings-form__section small-form">
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Aktualne hasło</span>
+                    <input type="password" class="small-input__input" name="currentPassword" asp-for="CurrentPassword" required />
+                </label>
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">nowe hasło</span>
+                    <span class="small-input__errorMessage">Nazwa użytkownika musi posiadać minimum 8 znaków, literę lub cyfrę</span>
+                    <input type="password" class="small-input__input" name="newPassword" asp-for="NewPassword" required />
+                </label>
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">powtórz nowe hasło</span>
+                    <span class="small-input__errorMessage">Hasła muszą być identyczne</span>
+                    <input type="password" class="small-input__input" name="repeatNewPassword" asp-for="RepeatNewPassword" required />
+                </label>
+            </section>
+            <input type="submit" class="button button--secondary settings-form__button" value="ZMIEŃ HASŁO" />
+        </form>
+        <form class="user-settings__form settings-form" id="deleteAccountSettingsForm" method="post" asp-action="DeleteUser">
+            <h3 class="settings-form__heading settings-form__heading--danger">Dezaktywacja konta</h3>
+            <section class="settings-form__section small-form">
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">hasło</span>
+                    <input type="password" class="small-input__input" required asp-for="CurrentPassword"/>
+                </label>
+                <label class="settings-form__input small-input">
+                    <span class="small-input__label">Powtórz hasło</span>
+                    <input type="password" class="small-input__input" required asp-for="RepeatCurrentPassword"/>
+                </label>
+            </section>
+            <input type="submit" class="button button--danger settings-form__button" value="DEZAKTYWUJ" />
+        </form>
+    </div>
+</section>
+<script src="~/js/validateForm.js"></script>
+<script src="~/js/user/userSettings.js"></script>

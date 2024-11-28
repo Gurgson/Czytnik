@@ -1,0 +1,211 @@
+﻿@model Czytnik_Model.ViewModels.ProductPageViewModel
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = Model.Product.Title;
+}
+
+<section class="product wrapper js-books-container">
+    <div class="product__header product__section">
+        <figure class="product__cover">
+            <img src="@Model.Product.Cover" />
+        </figure>
+        <div class="product__info">
+            <h1 class="product__title" title="@Model.Product.Title">@Model.Product.Title</h1>
+            <p class="product__author">
+                Autor:
+                @string.Join(", ", Model.Authors)
+            </p>
+            <ul class="product__flags">
+                @if (Model.Bestseller > 0)
+                {
+                    <li class="product__flags-item flag flag--counted flag--secondary">
+                        <span class="flag__title">Bestseller</span><span class="flag__rank">#@Model.Bestseller</span>
+                    </li>
+
+                }
+                @if (Model.Discount != null)
+                {
+                    <li class="product__flags-item flag flag--primary">
+                        <span class="flag__title">Promocja</span><span
+                        class="flag__rank">@Model.Discount.DiscountValue%</span>
+                    </li>
+                }
+
+
+            </ul>
+            <p class="product__publisher">Wydawnictwo: <span
+                    class="product__publisher--highlight">@Model.Publisher</span></p>
+            <div class="product__rating">
+                <span class="product__rating-title">Ocena: </span>
+                <stars rating="@Model.Product.Rating" parent-class="product__stars"></stars>
+                <div class="product__rating-numbers">
+                    @if (Model.ReviewCount > 0)
+                    {
+                        <span>@Model.Product.Rating / 6</span>
+                    }
+                </div>
+                <span class="product__rating-pipe"></span>
+                <div class="product__rating-count">Opinie: <span class="js-count">@Model.ReviewCount</span></div>
+            </div>
+        </div>
+    </div>
+    <article id="description" class="product__description product__section">
+        <h2 class="product__heading">Opis książki</h2>
+        <p class="product__description-content">
+            @*@Model.Product.Description*@
+            @Html.Raw(Model.Product.Description)
+        </p>
+    </article>
+    <div class="product__section product__similar">
+        <h2 class="product__heading">Ksiązki podobne do <span
+                class="product__similar--highlight">@Model.Product.Title</span></h2>
+        <vc:books-carousel type="Product" series="@(Model.Series==null ? 0 : Model.Series.Id)"
+            category="@Model.Product.CategoryId" book="@Model.Product.Id"></vc:books-carousel>
+    </div>
+    <div class="product__section product__opinions" id="reviews">
+        <h2 class="product__heading">Oceny i opinie klientów (<span class="js-count">@Model.ReviewCount</span>)</h2>
+        <div class="product__opinions-control">
+            @if (Model.Product.Rating != null)
+            {
+                <stars rating="@Model.Product.Rating" parent-class="product__stars"></stars>
+            }
+            @if (SignInManager.IsSignedIn(User) && Model.IsFormVisible)
+            {
+                <a href="#reviewForm" class="product__button">Dodaj opinię</a>
+            }
+        </div>
+        <div class="product__reviews">
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="review review--@review.Rating">
+                    <figure class="review__value">
+                        @review.Rating
+                    </figure>
+                    <div class="review__info">
+                        oceniona przez: @review.Username, @review.ReviewDate.ToString("dd.MM.yyyy")
+                    </div>
+                    <p class="review__content">
+                        @review.ReviewText
+                    </p>
+                </div>
+            }
+            @if (Model.ReviewCount > 0)
+            {
+                <a class="review__seeAll" href="/Book/ReviewsList/@Model.Product.Id?id=@Model.Product.Id">zobacz wszystkie
+                    opinie</a>
+            }
+        </div>
+        @if (SignInManager.IsSignedIn(User) && Model.IsFormVisible)
+        {
+            <vc:review-form></vc:review-form>
+        }
+        </div>
+    <div class="product__section product__details" id="details">
+        <h2 class="product__heading">Szczegóły książki</h2>
+        <ul class="product__details-list">
+            <li class="product__details-item">
+                <span class="product__details-name">Autor:</span> <span class="product__details-value">
+                    @string.Join(", ", Model.Authors)
+                </span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Tłumaczenie:</span> <span class="product__details-value">
+                    @string.Join(", ", Model.Translators)
+                </span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Język egzemplarza:</span> <span
+                    class="product__details-value">@Model.EditionLanguage</span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Język oryginalny:</span> <span
+                    class="product__details-value">@Model.OriginalLanguage</span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Data wydania książki:</span> <span
+                    class="product__details-value">@Model.Product.ReleaseDate.ToString("dd.MM.yyyy")</span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Format:</span> <span
+                    class="product__details-value">@Model.Product.Dimensions.Replace("&nbsp;", "")</span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Kategoria:</span> <span
+                    class="product__details-value">@Model.Category.Name</span>
+            </li>
+            @if (Model.Series != null)
+            {
+                <li class="product__details-item">
+                    <span class="product__details-name">Seria:</span> <span
+                    class="product__details-value">@Model.Series.Name</span>
+                </li>
+            }
+            <li class="product__details-item">
+                <span class="product__details-name">Ilość stron:</span> <span
+                    class="product__details-value">@Model.Product.PageQuantity</span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Numer wydania:</span> <span
+                    class="product__details-value">@Model.Product.IssueNumber</span>
+            </li>
+            <li class="product__details-item">
+                <span class="product__details-name">Ilość sprzedanych kopii:</span> <span
+                    class="product__details-value">@Model.Product.NumberOfCopiesSold</span>
+            </li>
+        </ul>
+    </div>
+    <aside class="product__cart">
+        <div class="product__money">
+            <div class="product__price">
+                @Model.CalculatedPrice zł
+                @if (Model.Discount != null)
+                {
+                    <span class="product__sale">
+                        @Model.Product.Price zł
+                    </span>
+                }
+
+            </div>
+            <button class="product__money-button product__money-button--orange js-cart-item-add"
+                    data-book="@Model.Product.Id" data-price="@Model.Product.Price">
+                Dodaj do koszyka <span class="product__money-icon">+</span>
+            </button>
+            <button class="product__money-button product__money-button--blue js-single-item-add" data-book="@Model.Product.Id" data-price="@Model.Product.Price">
+                Kup teraz <span class="product__money-icon">$</span>
+            </button>
+        </div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (!Model.IsLikedByUser)
+            {
+                <div data-type="delete" data-bookId="@Model.Product.Id" class="product__favourite product__favourite--delete js-product-favourite">
+                    <svg class="product__favourite-icon icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-heart-broken"></use>
+                    </svg>
+                    Usuń z ulubionych
+                </div>
+            }
+            else
+            {
+                <div data-type="add" data-bookid="@Model.Product.Id" class="product__favourite js-product-favourite">
+                    <svg class="product__favourite-icon icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-heart"></use>
+                    </svg>
+                    Dodaj do ulubionych
+                </div>
+            }
+        }
+        <nav class="product__nav">
+            <a class="product__nav-item" href="#description">Opis książki</a>
+            <a class="product__nav-item" href="#reviews">Ocena i opinie</a>
+            <a class="product__nav-item" href="#details">Szczegóły książki</a>
+        </nav>
+    </aside>
+</section>
+
+<script src="~/js/addToFavourite.js"></script>
+<script src="~/js/addCartItem.js"></script>
+<script src="~/js/bookHandling.js"></script>

@@ -1,0 +1,137 @@
+.filter {
+  cursor: pointer;
+  overflow-y: hidden;
+
+  border: 2px solid var(--color-primary);
+  border-radius: 1.5rem;
+
+  &[open] &__icon {
+    transform: rotate(0);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+
+    padding: 1.5rem 1rem 1.5rem 1.5rem;
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  &__icon {
+    transform: rotate(-90deg);
+    width: 2.4rem;
+    height: 1.8rem;
+    transition: transform .2s ease-in-out;
+  }
+
+  &__button {
+    margin-top: 2.2rem;
+  }
+
+  &__reset {
+    margin: .8rem auto;
+  }
+}
+
+.filter__search {
+  margin-top: 3rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+
+  &-input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0.6rem 1.7rem;
+    padding-right: 0;
+
+    border-radius: 0.5rem;
+    background-color: var(--color-grey-lightest);
+  }
+}
+
+.filter__results {
+  overflow-y: scroll;
+  max-height: 45rem;
+  margin: 3rem 1rem 1.5rem 1.5rem;
+
+  &::-webkit-scrollbar {
+    width: 0.5em;
+    background-color: var(--color-white-dark);
+   }
+ 
+   &::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 3px;
+ 
+    &:hover {
+     background: var(--color-primary-dark);
+    }
+   }
+
+  &-item {
+    display: flex;
+    align-items: center;
+
+    margin-top: 0.5rem;
+  }
+
+  &-checkbox {
+    cursor: pointer;
+
+    @media screen and (max-width: 900px) {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &-checkbox:checked + &-label {
+    color: var(--color-secondary);
+  }
+
+  &-label {
+    cursor: pointer;
+
+    margin-left: 1rem;
+
+    font-size: 1.2rem;
+    font-weight: 400;
+
+    @media screen and (max-width: 900px) {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+.filter__range {
+  display: flex;
+  align-items: center;
+
+  margin: 1.5rem;
+
+  &-partition {
+    width: .5rem;
+    height: 1px;
+
+    margin: 0 1rem;
+
+    background-color: var(--color-black);
+  }
+
+  &-input {
+    width: 42%;
+
+    background: var(--color-white-dark);
+    border: 1px solid var(--color-grey);
+    font-family: inherit;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    padding-right: 0;
+  }
+}

@@ -1,0 +1,23 @@
+﻿@model Czytnik_Model.ViewModels.UserReviewViewModel
+
+<li class="userReview userReview--buttons" data-id="@Model.Id">
+    <div class="userReview__column">
+        <div class="userReview__header">
+            <div>
+                <svg class="userReview__icon icon" viewBox="0 0 32 32">
+                    <use xlink:href="/assets/svg/sprite.svg#icon-star"></use>
+                </svg>
+                <span class="userReview__rating">@Model.Rating</span>
+            </div>
+            <span class="userReview__date">@Model.ReviewDate.ToString("dd-MM-yyyy")</span>
+        </div>
+        <h3 class="userReview__title" title="@Model.BookTitle">@Model.BookTitle - <span class="userReview__author">@string.Join(", ", Model.Authors)</span></h3>
+        <p class="userReview__text">
+            @Model.ReviewText
+        </p>
+    </div>
+    <div class="userReview__buttons">
+        <button class="button button--secondary">EDYTUJ</button>
+        <button class="button button--danger">USUŃ</button>
+    </div>
+</li>

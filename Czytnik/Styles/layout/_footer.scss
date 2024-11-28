@@ -1,0 +1,114 @@
+.footer {
+    width: 100%;
+    margin-top: 6rem;
+    
+    background-color: var(--color-secondary-dark);
+    color: var(--color-white);
+    font-size: 1.3rem;
+
+    &__container {
+        min-height: 23rem;
+        display: grid;
+        row-gap: 4rem;
+        grid-template-columns: repeat(3,1fr);
+
+        grid-template-areas: 
+            "left center right";
+
+        padding-top: 3rem;
+        padding-bottom: 1rem;
+
+        @media only screen and (max-width: 900px) {
+            grid-template-columns: repeat(2,1fr);
+            grid-template-areas: 
+                "left right"
+                "center center";
+        }
+
+        @media only screen and (max-width: 500px) {
+            justify-content: center;
+            grid-template-columns: 1fr;
+            grid-template-areas: 
+                "left"
+                "right"
+                "center";
+        }
+    }
+
+    &__logo {
+        display: inline-block;
+        margin-bottom: 2rem;
+
+        font-size: 2.4rem;
+        font-weight: 900;
+    }
+
+    &__paragraph {
+        margin-bottom: 2rem;
+        max-width: 30rem;
+    }
+
+    &__contact {
+        width: max-content;
+        margin-left: 1.5rem;
+    }
+
+    &__contact-item {
+        margin-bottom: .7rem;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__copyright {
+        text-align: center;
+        width: 100%;
+    }
+
+    &__heading {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+
+    &__nav {
+        text-transform: capitalize;
+    }
+
+    &__nav-item {
+        margin-bottom: .7rem;
+        margin-right: 1.5rem;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+
+    &__nav-item,
+    &__contact,
+    &__contact-item {
+        @media only screen and (max-width: 500px) {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}
+
+.footer__side {
+    @media only screen and (max-width: 500px) {
+        @include center-flex;
+        flex-direction: column;
+        text-align: center !important;
+    }
+    &--left{
+        grid-area: left;
+    }
+    &--center {
+        grid-area: center;
+        display: flex;
+        align-items: flex-end;
+    }
+    &--right {
+        grid-area: right;
+        text-align: right;
+    }
+}

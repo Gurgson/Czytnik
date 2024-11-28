@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Czytnik_Model.ViewModels.BooksCarouselViewModel>
+
+<div class="books-carousel books-carousel--default js-books-container" data-count="@Model.Count()">
+    @foreach (var item in Model)
+    {
+        <div class="books-carousel__item">
+            <a href="/Book/Index/@item.Id" class="books-carousel__link">
+                <img src="@item.Cover" alt="book" class="books-carousel__image">
+            </a>
+            <p class="books-carousel__title" title="@item.Title">@item.Title</p>
+            <p class="books-carousel__author">@string.Join(", ", item.Authors)</p>
+            <p class="books-carousel__category">@item.Category.Name</p>
+            <div class="books-carousel__rating">
+                <svg class="books-carousel__star @(item.Rating == null ? "books-carousel__star--none" : "")"
+                viewBox="0 0 32 32">
+                    <use xlink:href="/assets/svg/sprite.svg#icon-star"></use>
+                </svg>
+                <p class="books-carousel__rate">@(item.Rating == null ? "Brak ocen" : item.Rating)</p>
+            </div>
+            <button class="books-carousel__button books-carousel__button--primary js-single-item-add" data-book="@item.Id" data-price="@item.Price">
+                <span class="books-carousel__button__left">Kup teraz</span>
+                <span class="books-carousel__button__right">@item.Price zł</span>
+            </button>
+        </div>
+    }
+</div>

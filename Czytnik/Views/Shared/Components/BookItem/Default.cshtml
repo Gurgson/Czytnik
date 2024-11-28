@@ -1,0 +1,27 @@
+﻿@model Czytnik_Model.ViewModels.BooksSearchViewModel
+
+<div class="book-item">
+    <a href="/Book/Index/@Model.Id" class="book-item__link">
+        <img src="@Model.Cover" alt="@Model.Title" class="book-item__image">
+    </a>
+    <div class="book-item__price">
+        <div class="book-item__price-current">@Model.CalculatedPrice zł</div>
+        <div class="book-item__price-old">@(Model.Price == Model.CalculatedPrice ? null : Model.Price+" zł")</div>
+    </div>
+    <p class="book-item__title" title="@Model.Title">
+        @Model.Title
+    </p>
+    <p class="book-item__author">
+        @string.Join(", ", Model.Authors)
+    </p>
+    <div class="book-item__rating">
+        <svg class="book-item__star @(Model.Rating.HasValue ? "" : "book-item__star--disabled")" viewBox="0 0 32 32">
+            <use xlink:href="/assets/svg/sprite.svg#icon-star"></use>
+        </svg>
+        <p class="book-item__rate">@(Model.Rating.HasValue ? Model.Rating : "Brak Ocen")</p>
+    </div>
+    <button class="books-carousel__button books-carousel__button--secondary js-cart-item-add" data-book="@Model.Id" data-price="@Model.Price">
+        <span class="books-carousel__button__left">Dodaj do koszyka</span>
+        <span class="books-carousel__button__right">+</span>
+    </button>
+</div>

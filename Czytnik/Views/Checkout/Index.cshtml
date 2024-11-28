@@ -1,0 +1,173 @@
+﻿@{
+  ViewData["Title"] = "Płatność";
+}
+
+<form class="checkout wrapper" id="payment-form">
+  <header class="checkout__header">
+    <div class="checkout__header-item checkout__header-item--cart">
+      Koszyk
+    </div>
+    <div class="checkout__header-item checkout__header-item--payment">
+      Dostawa i płatność
+    </div>
+    <div class="checkout__header-item checkout__header-item--done">
+      Gotowe
+    </div>
+  </header>
+
+  <main class="checkout__content">
+    <h1 class="checkout__heading">Dane odbiorcy przesyłki</h1>
+    <div class="checkout__shipment">
+
+      <div class="checkout__shipment-row">
+        <div class="checkout__shipment-field">
+          <label for="name" class="checkout__shipment-label">Imię</label>
+          <input type="text" class="checkout__shipment-input" name="name" id="name" required>
+        </div>
+        <div class="checkout__shipment-field">
+          <label for="surname" class="checkout__shipment-label">Nazwisko</label>
+          <input type="text" class="checkout__shipment-input" name="surname" id="surname" required>
+        </div>
+        <div class="checkout__shipment-field">
+          <label for="phone" class="checkout__shipment-label">Numer Telefonu</label>
+          <input type="text" class="checkout__shipment-input" name="phone" minlength="9" maxlength="9" id="phone">
+        </div>
+      </div>
+
+      <div class="checkout__shipment-row">
+        <div class="checkout__shipment-field">
+          <label for="email" class="checkout__shipment-label">Email</label>
+          <input type="email" class="checkout__shipment-input" name="email" id="email" required>
+        </div>
+      </div>
+
+      <div class="checkout__shipment-row">
+        <div class="checkout__shipment-field">
+          <label for="post-code" class="checkout__shipment-label">Kod Pocztowy</label>
+          <input type="text" class="checkout__shipment-input"  minlength="6" maxlength="6" name="post-code" id="post-code" required>
+        </div>
+        <div class="checkout__shipment-field">
+          <label for="post" class="checkout__shipment-label">Poczta</label>
+          <input type="text" class="checkout__shipment-input" name="post" id="post" required>
+        </div>
+        <div class="checkout__shipment-field">
+          <label for="town" class="checkout__shipment-label">Miejscowość</label>
+          <input type="text" class="checkout__shipment-input" name="town" id="town" required>
+        </div>
+      </div>
+
+      <div class="checkout__shipment-row">
+        <div class="checkout__shipment-field">
+          <label for="home" class="checkout__shipment-label">Numer Domu</label>
+          <input type="number" class="checkout__shipment-input" name="home" id="home" required>
+        </div>
+        <div class="checkout__shipment-field">
+          <label for="street" class="checkout__shipment-label">Ulica</label>
+          <input type="text" class="checkout__shipment-input"name="street" id="street">
+        </div>
+        <div class="checkout__shipment-field">
+          <label for="flat" class="checkout__shipment-label">Numer Mieszkania</label>
+          <input type="number" class="checkout__shipment-input" name="flat" id="flat">
+        </div>
+      </div>
+    </div>
+
+    <h1 class="checkout__heading">Sposób dostawy</h1>
+    <div class="checkout__delivery js-checkout-delivery">
+      <div class="checkout__delivery-point">
+        <div class="checkout__delivery-header">
+          <h2 class="checkout__delivery-heading">Odbiór w punkcie Czytnik</h2>
+          <span class="checkout__delivery-price">za darmo</span>
+        </div>
+
+
+        <div class="checkout__delivery-input">
+          <input class="checkout__delivery-radio js-checkout-radio" type="radio" name="type" id="adres1" value="point1"
+            checked>
+          <label for="adres1" class="checkout__delivery-label js-checkout-label">plac Defilad 1, 00-901 Warszawa</label>
+        </div>
+
+        <div class="checkout__delivery-input">
+          <input class="checkout__delivery-radio js-checkout-radio" type="radio" name="type" id="adres2" value="point2">
+          <label for="adres2" class="checkout__delivery-label js-checkout-label">Kapitana Mieczysława Medweckiego 1,
+            32-083 Balice</label>
+        </div>
+
+      </div>
+
+      <div class="checkout__delivery-location">
+        <div class="checkout__delivery-header">
+          <h2 class="checkout__delivery-heading">Dostawa na adres</h2>
+        </div>
+
+        <div class="checkout__delivery-item">
+          <div class="checkout__delivery-input">
+            <input class="checkout__delivery-radio js-checkout-radio" type="radio" name="type" id="type1"
+              value="shipment1" required>
+            <label for="type1" class="checkout__delivery-label js-checkout-label">Kurier, <span
+                class="checkout__delivery-provider">InPost</span></label>
+          </div>
+
+          <div class="checkout__delivery-price">
+            10,95 zł
+          </div>
+        </div>
+
+        <div class="checkout__delivery-item">
+          <div class="checkout__delivery-input">
+            <input class="checkout__delivery-radio js-checkout-radio" type="radio" name="type" id="type2"
+              value="shipment2">
+            <label for="type2" class="checkout__delivery-label js-checkout-label">Kurier, <span
+                class="checkout__delivery-provider">DPD</span></label>
+          </div>
+
+          <div class="checkout__delivery-price">
+            12,99 zł
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="checkout__payment">
+      <h1 class="checkout__heading">Metoda płatności</h1>
+      <div id="payment-element">
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <aside class="checkout__service">
+    <h1 class="checkout__service-heading">Podsumowanie zamówienia</h1>
+
+    <div class="checkout__service-prices">
+      <div class="checkout__service-cost">
+        <p class="checkout__service-title">Wartość przedmiotów</p>
+        <p class="checkout__service-value js-checkout-products-price">89.90 zł</p>
+      </div>
+
+      <div class="checkout__service-cost">
+        <p class="checkout__service-title">Dostawa</p>
+        <p class="checkout__service-value js-checkout-shipment-price">8.99 zł</p>
+      </div>
+    </div>
+
+    <div class="checkout__service-sum">
+      <div class="checkout__service-cost">
+        <p class="checkout__service-title checkout__service-title--sum">Do zapłaty</p>
+        <p class="checkout__service-value checkout__service-value--sum js-checkout-full-price">99.99 zł</p>
+      </div>
+    </div>
+
+    <div class="checkout__service-button">
+      <button class="button button--secondary button--big button--full-parent button--parent-font-size"
+        id="submit">Zapłać
+      </button>
+    </div>
+  </aside>
+</form>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="~/js/stripe.js"></script>

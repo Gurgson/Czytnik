@@ -1,0 +1,144 @@
+﻿@using Czytnik_Model.ViewModels
+@model dynamic
+
+@{
+    ViewData["Title"] = "Wyszukiwanie";
+}
+
+<form class="search wrapper js-filter-form" action="/Search" method="get">
+    <details open class="search__filter">
+        <summary class="search__filter-header">
+            <p class="search__filter-title">Filter</p>
+            <svg class="search__filter-icon" viewBox="0 0 29 25">
+                <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+            </svg>
+        </summary>
+        <div class="search__filter-item">
+            <details class="filter filter--list">
+                <summary class="filter__header">
+                    <p class="filter__title">Kategoria</p>
+                    <svg class="filter__icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+                    </svg>
+                </summary>
+
+                <div class="filter__search">
+                    <input type="text" class="filter__search-input js-categories-filter-search" placeholder="Wyszukaj">
+                </div>
+
+                <div class="filter__results js-categories-filter"></div>
+            </details>
+        </div>
+
+        <div class="search__filter-item">
+            <details class="filter">
+                <summary class="filter__header">
+                    <p class="filter__title">Data Wydania</p>
+                    <svg class="filter__icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+                    </svg>
+                </summary>
+
+                <div class="filter__range">
+                    <input class="filter__range-input" type="date" name="StartDate" id="start-date" value="@Model.search.StartDate?.ToString("yyyy-MM-dd")">
+                    <div class="filter__range-partition"></div>
+                    <input class="filter__range-input" type="date" name="EndDate" id="end-date" value="@Model.search.EndDate?.ToString("yyyy-MM-dd")">
+                </div>
+
+            </details>
+        </div>
+
+        <div class="search__filter-item">
+            <details class="filter">
+                <summary class="filter__header">
+                    <p class="filter__title">Cena</p>
+                    <svg class="filter__icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+                    </svg>
+                </summary>
+
+                <div class="filter__range">
+                    <input class="filter__range-input filter__range-input--price" type="number" min="1" step="1" name="StartPrice"
+                           id="start-price" placeholder="od" value="@Model.search.StartPrice">
+                    <div class="filter__range-partition"></div>
+                    <input class="filter__range-input filter__range-input--price" type="number" min="1" step="1" name="EndPrice"
+                           id="end-price" placeholder="do" value="@Model.search.EndPrice">
+                </div>
+
+            </details>
+        </div>
+
+        <div class="search__filter-item">
+            <details class="filter filter--list">
+                <summary class="filter__header">
+                    <p class="filter__title">Język</p>
+                    <svg class="filter__icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+                    </svg>
+                </summary>
+
+                <div class="filter__search">
+                    <input type="text" class="filter__search-input js-languages-filter-search" placeholder="Wyszukaj">
+                </div>
+
+                <div class="filter__results js-languages-filter"></div>
+            </details>
+        </div>
+
+        <input type="hidden" name="SearchText" class="js-search-form-input">
+
+        <div class="filter__button">
+            <button class="button button--medium button--full-parent js-search-button">
+                Wyszukaj
+            </button>
+            <input type="reset" class="button button--secondary js-reset-button filter__reset" value="Resetuj filtry"/>
+        </div>
+    </details>
+
+    <div class="search__content">
+        <h1 class="search__header">Książki: @Model.search.SearchText</h1>
+        <div class="search__sorting">
+            <div class="sorting-header sorting-header--search">
+                <div class="sorting-header__counter">
+                    Znaleziono @Model.booksCount produktów
+                </div>
+                <div class="sorting-header__sort">
+                    <label for="sort" class="sorting-header__sort-label">Sortuj według: </label>
+                    <div class="sorting-header__sort-select-wrapper">
+                        <select name="Sort" id="sort" class="sorting-header__sort-select js-sorting-select">
+                            <option value="alphabet">A - Z</option>
+                            <option value="price-down">Cena: malejąco</option>
+                            <option value="price-up">Cena: rosnąco</option>
+                            <option value="date-down">Od najnowszych</option>
+                            <option value="date-up">Od najstarszych</option>
+                            <option value="rating-down">Ocena: malejąco</option>
+                            <option value="rating-up">Ocena: rosnąco</option>
+                        </select>
+                        <svg class="sorting-header__sort-chevron" viewBox="0 0 32 32">
+                            <use xlink:href="/assets/svg/sprite.svg#icon-chevron-down"></use>
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="search__result js-books-container">
+            @if (Model.books.Count == 0)
+            {
+                <p class="search__result-none">Brak wyników :(</p>
+            }
+            @foreach (BooksSearchViewModel book in Model.books)
+            {
+                @await Component.InvokeAsync("BookItem", new { element = book })
+            }
+        </div>
+        <div class="pagination js-pagination" data-quantity="@Model.booksCount" data-page="@Model.search.Page"></div>
+    </div>
+
+</form>
+
+<script src="~/js/loadFilters.js"></script>
+<script src="~/js/submitSearch.js"></script>
+<script src="~/js/pagination.js"></script>
+<script src="~/js/addCartItem.js"></script>

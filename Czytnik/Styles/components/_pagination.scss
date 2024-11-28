@@ -1,0 +1,47 @@
+.pagination {
+  width: 100%;
+  text-align: center;
+
+  &__item {
+    padding: 0.5rem 1rem;
+
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--color-grey);
+
+    transition: color 0.3s;
+    &:hover:not(&--active):not(&--text) {
+      color: var(--color-primary-dark);
+    }
+
+    &--arrow {
+      padding: 0.5rem;
+    }
+
+    &--active {
+      font-weight: 700;
+      color: var(--color-black);
+    }
+
+    &--text {
+      padding: 0.5rem;
+
+      font-size: 1.4rem;
+    }
+  }
+
+  &__item:hover &__arrow {
+    fill: var(--color-primary-dark);
+  }
+
+  &__arrow {
+    width: 0.6rem;
+    height: 0.9rem;
+
+    transition: fill 0.3s;
+
+    &--left {
+      transform: rotate(180deg);
+    }
+  }
+}

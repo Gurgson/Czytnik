@@ -1,0 +1,72 @@
+.button {
+  width: max-content;
+  padding: 0.6rem 3rem;
+  display: block;
+
+  cursor: pointer;
+  background-color: var(--color-primary);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-family: inherit;
+
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: inherit;
+  text-align: center;
+
+  transition: all 0.2s;
+
+  &:disabled {
+    background-color: var(--color-grey-light);
+    color: var(--color-grey);
+    border-color: var(--color-grey);
+    cursor: initial;
+  }
+
+  &:not(:disabled):hover {
+    color: var(--color-grey);
+    background-color: var(--color-white);
+    border: 2px solid var(--color-primary);
+  }
+
+  &--medium {
+    padding: 0.8rem 3rem;
+    font-size: 1.8rem;
+    min-width: 18.7rem;
+  }
+
+  &--parent-font-size {
+    font-size: inherit;
+  }
+
+  &--big {
+    padding: 1.2rem 5rem;
+    font-size: 2rem;
+  }
+
+  &--full-parent {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &--secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+
+    &:hover {
+      border: 2px solid var(--color-secondary);
+    }
+  }
+
+  &--transparent {
+    background-color: transparent;
+    color: currentColor;
+    border: 2px solid currentColor;
+  }
+
+  &--danger {
+    background-color: var(--color-warning);
+    color: var(--color-white);
+  }
+}

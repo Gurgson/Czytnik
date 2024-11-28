@@ -1,0 +1,22 @@
+﻿<form id="reviewForm" method="POST" class="review-form">
+    <partial name="_LoadingSpinner" />
+    <h2 class="review-form__heading">Twoja ocena:</h2>
+    <label class="rating-label review-form__stars">
+        <input class="rating"
+               max="6"
+               min="1"
+               oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+               step="1"
+               style="--stars:6;--value:6"
+               type="range"
+               value="6"
+               name="rating"
+               required
+               >
+    </label>
+    <label class="review-form__heading">Recenzja: <span class="review-form__heading--lowlight">(nieobowiązkowa)</span></label>
+    <textarea max="999" name="reviewText" class="review-form__review" placeholder="Ta książka..."></textarea>
+    <span class="review-form__charCount" id="charCount"></span>
+    <input id="submitReview" class="review-form__button button button--secondary" type="submit" value="Prześlij" />
+</form>
+<script src="~/js/addReview.js"></script>

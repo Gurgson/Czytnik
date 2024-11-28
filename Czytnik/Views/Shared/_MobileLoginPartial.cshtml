@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <ul class="navigation__mobile-links">
+        <li class="navigation__mobile-item">
+            <a class="navigation__mobile-link navigation__links-link"  asp-controller="User" asp-action="Profile">
+                Wyświetl profil
+            </a>
+        </li>
+        <li class="navigation__mobile-item navigation__mobile-item--variant">
+            <form class="navigation__mobile-link navigation__links-link" id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit">
+                    Wyloguj
+                </button>
+            </form>
+        </li>
+    </ul>
+}
+else
+{
+    <div class="navigation__mobile-login">
+        <a class="button button--big" id="login" asp-area="Identity" asp-page="/Account/Login">
+            Zaloguj
+        </a>
+    </div>
+}
+

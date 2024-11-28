@@ -1,0 +1,129 @@
+﻿@model Czytnik_Model.ViewModels.UserProfileViewModel
+@{
+    ViewData["Title"] = "Twój profil";
+}
+<section class="user wrapper">
+    <header class="user__header">
+        <figure class="user__figure">
+            @if(Model.ProfilePicture == null || Model.ProfilePicture == "")
+            {
+                <img src="~/assets/img/defaultProfilePicture.png" class="user__image" alt="profile picture" />
+            } else {
+                <img src="~/uploads/@Model.ProfilePicture" class="user__image" alt="profile picture" />
+            }
+        </figure>
+        <p class="user__username">@Model.Username</p>
+        <p class="user__name">@Model.FullName</p>
+    </header>
+    <div class="user__info">
+        <h2 class="heading-line heading-line--both user__info-heading">Coś o Tobie</h2>
+        <table class="user__table">
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Imię:</td>
+                <td class="user__table-column user__table-column--data @validateString(Model.FirstName)">@((Model.FirstName==null)?"brak":Model.FirstName)</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Drugie imię:</td>
+                <td class="user__table-column user__table-column--data @validateString(Model.SecondName)">@((Model.SecondName==null)?"brak":Model.SecondName)</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Nazwisko:</td>
+                <td class="user__table-column user__table-column--data @validateString(Model.Surname)">@((Model.Surname==null)?"brak":Model.Surname)</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Data urodzenia:</td>
+                <td class="user__table-column user__table-column--data @((Model.Birthdate==null)?"user__table-column--empty": "")">@((Model.Birthdate==null)?"brak":Model.Birthdate.Value.ToString("dd MMM yyyy"))</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Email:</td>
+                <td class="user__table-column user__table-column--data @validateString(Model.Email)">@((Model.Email==null)?"brak":Model.Email)</td>
+            </tr>
+            <tr class="user__table-row">
+                <td class="user__table-column user__table-column--title">Numer telefonu:</td>
+                <td class="user__table-column user__table-column--data @validateString(Model.PhoneNumber)">@((Model.PhoneNumber == null)?"brak":Model.PhoneNumber)</td>
+            </tr>
+        </table>
+        <a href="/User/Settings" class=" user__info-button button button--secondary">Ustawienia</a>
+    </div>
+    <div class="user__favourites">
+        <h2 class="heading-line heading-line--left user__favourites-heading">Twoje ulubione pozycje</h2>
+        <div class="user__favourites-list">
+            @if (Model.Favourites.Count > 0)
+            {
+                @foreach (var fav in Model.Favourites)
+                {
+                    <a href="/Book/Index/@fav.Id" class="user__favourites-item">
+                        <figure class="user__favourites-figure">
+                            <img class="user__favourites-image" src="@fav.Cover" />
+                        </figure>
+                        <p class="user__favourites-title" title="@fav.Title">@fav.Title</p>
+                        <p class="user__favourites-author">@string.Join(", ", fav.Authors)</p>
+                    </a>
+                }
+                <div class="user__favourites-item user__favourites-more">
+                    <a href="/User/Favourites" class="moreLink">zobacz wszystkie...</a>
+                </div>
+            } else
+            {
+                <div class="user__favourites-none user__none">Nic tu nie ma :(</div>
+            }
+
+        </div>
+    </div>
+    <div class="user__orders">
+        <h2 class="heading-line heading-line--both user__favourites-heading">Historia zamówień</h2>
+        <div class="user__orders-container">
+            @if (Model.Orders.Count > 0)
+            {
+                @foreach (var order in Model.Orders)
+                {
+                    <div class="order">
+                        <div class="order__info">
+                            <span class="order__date">@order.OrderDate.ToString("dd-MM-yyyy")</span><span class="order__number">Zamówienie nr #@order.OrderId</span>
+                        </div>
+                        <ul class="order__items">
+                            @foreach (var item in order.Items)
+                            {
+                                <li class="order__item">
+                                    <p class="order__title" title="@item.BookTitle">@item.BookTitle</p>
+                                    <span class="order__count">x @item.Quantity</span>
+                                    <span class="order__price">@item.Price zł</span>
+                                </li>
+                            }
+                        </ul>
+                        <div class="order__wholePrice">@string.Format("{0:0.00}", order.CalculatedPrice) zł</div>
+                    </div>
+                }
+            }
+
+        </div>
+        <div class="order__more">
+            <a href="/User/Orders" class="moreLink">zobacz wszystkie zamówienia... </a>
+        </div>
+    </div>
+    <div class="user__reviews">
+        <h2 class="heading-line heading-line--left user__reviews-heading">Twoje oceny i recenzje</h2>
+        <a href="/User/Reviews" class="moreLink user__reviews-more">zobacz wszystkie recenzje... </a>
+        <ul class="user__reviews-container">
+            @if (Model.UserReviews.Count > 0)
+            {
+                @foreach (var r in Model.UserReviews)
+                {
+                    @await Component.InvokeAsync("UserReview", new { review = r, isEditable = false })
+                }
+            }
+            else
+            {
+                <li class="user__reviews-none user__none">Nic tu nie ma :(</li>
+            }
+
+        </ul>
+    </div>
+</section>
+
+@functions{
+    public static string validateString(string value)
+    {
+        return (value == null) ? "user__table-column--empty" : "";
+    }
+}

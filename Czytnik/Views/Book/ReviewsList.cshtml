@@ -1,0 +1,62 @@
+﻿@model Czytnik_Model.ViewModels.ReviewListViewModel
+@{
+    ViewData["Title"] = "Oceny " + Model.Title;
+}
+
+<section class="product-reviews wrapper">
+    <div class="product-reviews__header">
+        <h1 class="product-reviews__heading">Wszystkie recenzje <span class="product-reviews__heading--highlight">@Model.Title</span></h1>
+        <a class="product-reviews__back button button--secondary" href="/Book/Index/@Model.BookId">Powrót</a>
+    </div>
+    <div class="product-reviews__summary summary">
+        <div class="summary__column">
+            <h3 class="summary__heading">Ogólna ocena</h3>
+            <div class="summary__rating">@Model.Rating<span class="summary__rating--lowlight"> / 6</span></div>
+            <stars rating="@Model.Rating" parent-class="summary__stars"></stars>
+            <p class="summary__paragraph">@Model.ReviewCount ocen</p>
+        </div>
+        <div class="summary__column">
+            <ul class="summary__diagram diagram">
+                @for (int i = 6; i > 0; i--)
+                {
+                    decimal percentage;
+                    decimal count;
+                    if (Model.ReviewsQnt.ContainsKey((short)i))
+                    {
+                        percentage = Math.Round((decimal)((decimal)Model.ReviewsQnt[(short)i] / (decimal)Model.ReviewCount) * 100);
+                        count = Model.ReviewsQnt[(short)i];
+                    }
+                    else
+                    {
+                        percentage = 0;
+                        count = 0;
+                    }
+                    <li class="diagram__item">
+                        <span class="diagram__rating">@i ★</span>
+                        <div class="diagram__bar" style="--percent:@percentage%;"></div>
+                        <span class="diagram__count">@count</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div id="reviewsContainer" class="product-reviews__container">
+        @*@foreach (var review in Model.reviews)
+            {
+                <div class="review review--@review.Rating">
+                    <figure class="review__value">
+                        @review.Rating
+                    </figure>
+                    <div class="review__info">
+                        oceniona przez: @review.Username, @review.ReviewDate.ToString("dd.MM.yyyy")
+                    </div>
+                    <p class="review__content">
+                        @review.ReviewText
+                    </p>
+                </div>
+            }*@
+    </div>
+    <button id="more" class="product-reviews__more button">Załaduj więcej</button>
+</section>
+
+<script src="/js/loadReviews.js"></script>

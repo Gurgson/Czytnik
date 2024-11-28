@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Strona Główna";
+}
+@model dynamic
+
+<main class="home-main">
+    <header class="home-header">
+        <div class="home-header__container wrapper">
+            <div class="home-header__cta">
+                <h1 class="home-header__heading">Twoje ulubione historie i wiedza w zasięgu kliknięcia.</h1>
+                <p class="home-header__text">Zapraszamy do księgarni internetowej Czytnik. W naszej ofercie znajdziesz
+                    szeroki
+                    asortyment książek i e-booków.</p>
+                <div class="home-header__button">
+                    <a class="button button--medium button--secondary" asp-controller="Search" asp-action="Index">
+                        Znajdź książkę
+                    </a>
+                </div>
+            </div>
+            <div class="home-header__covers">
+                <img src="/assets/img/covers.png" alt="covers" class="home-header__image">
+            </div>
+        </div>
+
+    </header>
+
+    <section class="home-categories wrapper">
+        <div class="home-categories__header">
+            <h1 class="home-categories__title">Kategorie:</h1>
+            <a href="/Categories" class="home-categories__more">Zobacz wszystkie</a>
+        </div>
+
+        <div class="home-categories__content">
+            <a href="/Search?CategoryId=56" class="home-categories__item">
+                <img src="/assets/img/horror_category.png" alt="horror" class="home-categories__item-image">
+                <p class="home-categories__item-title">Horror</p>
+            </a>
+            <a href="/Search?CategoryId=43" class="home-categories__item">
+                <img src="/assets/img/romans_category.png" alt="romans" class="home-categories__item-image">
+                <p class="home-categories__item-title">Romans</p>
+            </a>
+            <a href="/Search?CategoryId=14" class="home-categories__item">
+                <img src="/assets/img/fantasy_category.png" alt="fantasy" class="home-categories__item-image">
+                <p class="home-categories__item-title">Fantasy</p>
+            </a>
+            <a href="/Search?CategoryId=4" class="home-categories__item">
+                <img src="/assets/img/history_category.png" alt="historia" class="home-categories__item-image">
+                <p class="home-categories__item-title">Historia</p>
+            </a>
+            <a href="/Search?CategoryId=6" class="home-categories__item">
+                <img src="/assets/img/biography_category.png" alt="biografia" class="home-categories__item-image">
+                <p class="home-categories__item-title">Biografia</p>
+            </a>
+            <a href="/Search?CategoryId=109" class="home-categories__item">
+                <img src="/assets/img/for_kids_category.png" alt="dla dzieci" class="home-categories__item-image">
+                <p class="home-categories__item-title">Dla dzieci</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="home-top-books wrapper js-home-top-books">
+        <div class="home-top-books__header">
+            <h1 class="home-top-books__title decorated-heading">To najczęściej<br />czytano w @Model.month:</h1>
+        </div>
+        @await Component.InvokeAsync("BooksCarousel", new { type = "Default" })
+    </section>
+
+    @if (Model.ofAllTime.Count > 0)
+    {
+        <section class="home-best-books wrapper">
+            <div class="home-best-books__header">
+                <h1 class="home-best-books__title decorated-heading">Nasze <br /> Bestsellery</h1>
+            </div>
+
+            <div class="home-best-books__content">
+                @for (int i = 0; i < Model.ofAllTime.Count; i++)
+                {
+                    <a href="/Book/Index/@Model.ofAllTime[i].Id" class="home-best-books__item home-best-books__item--@(i+1)">
+                        <img src="@Model.ofAllTime[i].Cover" alt="Książka na pierwszym miejscu"
+                    class="home-best-books__item-image" />
+                        <p class="home-best-books__item-position">#@(i+1)</p>
+                        <p class="home-best-books__item-title" title="@Model.ofAllTime[i].Title">@Model.ofAllTime[i].Title</p>
+                        <p class="home-best-books__item-author">@string.Join(", ", Model.ofAllTime[i].Authors)</p>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+</main>
+
+<script src="~/js/homeHandling.js"></script>
+<script src="~/js/addCartItem.js"></script>

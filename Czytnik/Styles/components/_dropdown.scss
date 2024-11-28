@@ -1,0 +1,97 @@
+.dropdown {
+    position: relative;
+
+    &__figure {
+        width: 5rem;
+        height: 5rem;
+        overflow: hidden;
+        display: block;
+
+        border-radius: 50%;
+    }
+
+    &__profile {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &:hover &__content {
+        display: flex;
+    }
+
+    &__content {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+
+        width: Min(20rem, 90vh);
+        padding: 1.7rem 1.3rem;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        background-color: var(--color-white);
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.1);
+    }
+    
+    &__item {
+        border-radius: inherit;
+        width: 100%;
+        background-color: var(--color-white-dark);
+        cursor: pointer;
+
+        &:not(:last-child){
+            margin-bottom: .9rem;
+        }
+
+        &:last-child {
+            margin-top: 1rem;
+        }
+
+        &:nth-child(1) .icon {fill: var(--color-secondary-dark);}
+        &:nth-child(2) .icon {fill: var(--color-secondary);}
+        &:nth-child(3) .icon {fill: var(--color-primary);}
+
+        &:hover,
+        &--variant {
+            span {
+                font-weight: 700 !important;
+            }
+            .icon {
+                fill: var(--color-black);
+            }
+            background-color: var(--color-primary);
+        }
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+        font-family: inherit;
+        border-radius: inherit;
+    }
+
+    &__icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    &__name {
+        font-size: 1.2rem;
+        margin-left: .5rem;
+    }
+
+    &__form {
+        font-family: inherit;
+        border-radius: inherit;
+    }
+}

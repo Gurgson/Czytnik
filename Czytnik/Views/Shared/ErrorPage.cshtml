@@ -1,0 +1,11 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Błąd "+Model;
+}
+
+
+<section class="error wrapper">
+    <h1 class="error__code">@Model</h1>
+    <p class="error__info">strony nie znaleziono</p>
+    <a class="button button--secondary button--big" href="/">Powrót na stronę główną</a>
+</section>

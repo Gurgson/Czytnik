@@ -1,0 +1,68 @@
+﻿@model dynamic
+<nav class="navigation">
+  <div class="navigation__content wrapper">
+    <button class="navigation__burger js-navigation__burger">
+      <div class="navigation__burger-line"></div>
+      <div class="navigation__burger-line"></div>
+      <div class="navigation__burger-line"></div>
+    </button>
+
+    <div class="navigation__logo">
+      <a asp-controller="Home" asp-action="Index">Czytnik</a>
+    </div>
+
+    <ul class="navigation__links">
+        <li class="navigation__links-item @Html.ActiveClass("Home", "Index")">
+            <a class="navigation__links-link" asp-controller="Home" asp-action="Index">Strona Główna</a>
+        </li>
+        <li class="navigation__links-item @Html.ActiveClass("Categories", "Index")">
+            <a class="navigation__links-link" asp-controller="Categories" asp-action="Index">Kategorie</a>
+        </li>
+        <li class="navigation__links-item @Html.ActiveClass("Search", "Index")">
+            <a class="navigation__links-link" asp-controller="Search" asp-action="Index">Przeglądaj</a>
+        </li>
+    </ul>
+
+    <div class="navigation__buttons">
+      @*<partial name="_LoginPartial" />*@
+        @Html.PartialAsync("_LoginPartial", $"{Model.path}" ).Result
+      <a href="/Cart" class="navigation__buttons-cart js-navigation-cart" data-logged="@(Model.quantity == null ? false : true)">
+        <svg class="navigation__buttons-cart-icon" viewBox="0 0 32 32">
+          <use xlink:href="/assets/svg/sprite.svg#icon-cart"></use>
+        </svg>
+        <div class="navigation__buttons-cart-quantity js-nav-cart-quantity">@(Model.quantity != null ? Model.quantity : "")</div>
+      </a>
+    </div>
+    <form class="navigation__search js-search-form" asp-controller="Search" asp-action="Index" method="GET">
+      <input type="text" class="navigation__search-input js-search-navigation-input" placeholder="Wyszukaj..." name="SearchText" required />
+      <button class="navigation__search-button js-search-button" >
+        <svg class="navigation__search-icon" viewBox="0 0 32 32">
+            <use xlink:href="/assets/svg/sprite.svg#icon-search"></use>
+        </svg>
+      </button>
+    </form>
+  </div>
+</nav>
+
+<nav class="navigation__mobile js-navigation__mobile">
+    <button class="navigation__mobile-close js-navigation__mobile-close">
+        <div class="navigation__burger-line"></div>
+        <div class="navigation__burger-line"></div>
+    </button>
+
+    <ul class="navigation__mobile-links">
+        <li class="navigation__mobile-item navigation__mobile-item--active">
+            <a href="/" class="navigation__mobile-link navigation__links-link">
+                Strona Główna
+            </a>
+        </li>
+        <li class="navigation__mobile-item">
+            <a href="/Categories" class="navigation__mobile-link navigation__links-link">
+                Kategorie
+            </a>
+        </li>
+    </ul>
+
+    <partial name="_MobileLoginPartial" />
+
+</nav>

@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model string
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="dropdown navigation__buttons-dropdown">
+        <a class="dropdown__figure" asp-controller="User" asp-action="Profile">
+            @if (Model == null || Model == "")
+            {
+                <img src="~/assets/img/defaultProfilePicture.png" class="dropdown__profile" alt="profile picture" />
+            }
+            else
+            {
+                <img src="~/uploads/@Model" class="dropdown__profile" alt="profile picture" />
+            }
+        </a>
+        <ul class="dropdown__content">
+            <li class="dropdown__item">
+                <a class="dropdown__link"  asp-controller="User" asp-action="Profile">
+                    <svg class="dropdown__icon icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-user"></use>
+                    </svg>
+                    <span class="dropdown__name">Wyświetl profil</span>
+                </a>
+            </li>
+            <li class="dropdown__item">
+                <a class="dropdown__link" asp-controller="User" asp-action="Settings">
+                    <svg class="dropdown__icon icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-cog"></use>
+                    </svg>
+                    <span class="dropdown__name">Ustawienia profilu</span>
+                </a>
+            </li>
+            <li class="dropdown__item">
+                <a class="dropdown__link" asp-controller="User" asp-action="Favourites">
+                    <svg class="dropdown__icon icon" viewBox="0 0 32 32">
+                        <use xlink:href="/assets/svg/sprite.svg#icon-heart"></use>
+                    </svg>
+                    <span class="dropdown__name">Ulubione</span>
+                </a>
+            </li>
+            <li class="dropdown__item dropdown__item--variant">
+                <form class="dropdown__form" id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="dropdown__link">
+                        <svg class="dropdown__icon icon" viewBox="0 0 32 32">
+                            <use xlink:href="/assets/svg/sprite.svg#icon-exit"></use>
+                        </svg>
+                        <span class="dropdown__name">Wyloguj</span>
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="navigation__buttons-login">
+        <a class="button" id="login" asp-area="Identity" asp-page="/Account/Login">
+            Zaloguj
+        </a>
+    </div>
+}
+

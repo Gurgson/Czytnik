@@ -1,0 +1,81 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  // This define 1rem = 10px
+  font-size: 62.5%;
+  max-width: 100%;
+
+  // overflow-x: hidden;
+
+  @media only screen and (max-width: 1080px) {
+    font-size: 56.25%; //* 1rem = 9px
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 50%; //* 1rem = 8px
+  }
+}
+
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  overflow-x: hidden;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  //align-items: center;
+}
+
+.container {
+  position: relative;
+}
+
+input,
+button {
+  background-color: transparent;
+  border: none;
+
+  color: currentColor;
+}
+
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+details[open] summary ~ * {
+  animation: sweepIn 0.2s ease-in-out;
+}
+
+details[close] summary ~ * {
+  animation: sweepOut 0.2s ease-in-out;
+}

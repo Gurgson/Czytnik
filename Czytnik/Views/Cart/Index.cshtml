@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Czytnik_Model.ViewModels.CartItemsViewModel>
+@{
+  ViewData["Title"] = "Koszyk";
+}
+
+<script src="~/js/cartEmpty.js"></script>
+
+<section class="cart wrapper">
+  <main class="cart__content">
+    <div class="cart__header">
+      <h1 class="cart__title">Koszyk</h1>
+      <p class="cart__quantity js-cart-quantity" data-count="@(Model != null ? Model.Count() : '0' )">@(Model != null ? Model.Count() : '0') przedmioty</p>
+    </div>
+    <div class="cart__container js-cart-container">
+      <div class="cart__item cart__item-header">
+        <div class="cart__item-description cart__item-description--product">Produkt</div>
+        <div class="cart__item-description">Ilość</div>
+        <div class="cart__item-description">Cena</div>
+        <div class="cart__item-description">Razem</div>
+      </div>
+      @if(@Model != null)
+      @foreach (var item in @Model)
+      {
+        <div class="cart__item js-cart-item">
+          <div class="cart__item-product">
+            <a href="/Book/Index/@item.bookId" class="cart__item-cover">
+              <img class="cart__item-image" src="@item.Cover" alt="@item.Title">
+            </a>
+            <div class="cart__item-info">
+              <div class="cart__item-title" title="@item.Title">@item.Title</div>
+              <div class="cart__item-author">@string.Join(", ", item.Authors)</div>
+              <button class="cart__item-delete js-cart-item-delete" data-book="@item.bookId">USUŃ</button>
+            </div>
+          </div>
+
+          <div class="cart__item-quantity">
+            <button class="cart__item-button js-cart-quantity-decrement">
+              <svg class="cart__item-button-icon" viewBox="0 0 24 24">
+                <use xlink:href="/assets/svg/sprite.svg#icon-minus"></use>
+              </svg>
+            </button>
+            <input class="cart__item-input js-cart-quantity-input" type="number" min="1" name="cartItemQuantity"
+            value="@item.Quantity" data-book="@item.bookId">
+            <button class="cart__item-button js-cart-quantity-increment">
+              <svg class="cart__item-button-icon" viewBox="0 0 24 24">
+                <use xlink:href="/assets/svg/sprite.svg#icon-plus"></use>
+              </svg>
+            </button>
+          </div>
+
+          <div class="cart__item-price">
+            <div class="cart__item-price-old js-cart-item-promotion"
+            data-default-discount="@(item.Price == item.CalculatedPrice ? 0 : item.Price-item.CalculatedPrice)"
+            data-discount="@(item.Price == item.CalculatedPrice ? 0 : (item.Price-item.CalculatedPrice) * item.Quantity)">
+              @(item.Price == item.CalculatedPrice ? null : item.Price+" zł")</div>
+            <div class="cart__item-price-new js-cart-item-price">@item.CalculatedPrice zł</div>
+          </div>
+
+          <div class="cart__item-sum">
+            <div class="cart__item-sum-price js-cart-item-full-price">@Math.Round(item.FullPrice, 2) zł</div>
+          </div>
+        </div>
+      }
+    </div>
+  </main>
+  <aside class="cart__service">
+    <div class="cart__service-order">
+      <a href="#"
+        class="button button--secondary button--medium button--full-parent button--parent-font-size js-checkout-button">Przejdź
+        do
+        zamówienia</a>
+    </div>
+
+    <div class="cart__service-break">LUB</div>
+    <a href="/Search" class="cart__service-back">Kontynuuj zakupy</a>
+    <div class="cart__service-summary">
+      <div class="cart__service-summary-title">Podsumowanie zamówienia</div>
+      <div class="cart__service-summary-info">
+        <div class="cart__service-summary-text">Promocja:</div>
+        <div class="cart__service-summary-amount cart__service-summary-amount--promotion js-cart-promotion"></div>
+      </div>
+      <div class="cart__service-summary-info">
+        <div class="cart__service-summary-text cart__service-summary-text--sum">Do zapłaty:</div>
+        <div class="cart__service-summary-amount cart__service-summary-amount--sum js-cart-price">
+          @(Model != null ? Math.Round(Model.Sum(item => item.FullPrice), 2) : 0) zł</div>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<script src="~/js/cartHandling.js"></script>
