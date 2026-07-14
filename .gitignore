@@ -366,3 +366,8 @@ FodyWeavers.xsd
 **/wwwroot/css
 Czytnik/wwwroot/css/site.css
 Czytnik/wwwroot/css/site.css.map
+
+# Docker / hosting secrets & volumes
+.env
+/uploads/
+/Czytnik/appsettings.json
