@@ -1,3 +1,7 @@
+@use '../_globals' as *;
+
+/* home page styles follow... */
+
 .home-main {
   overflow-x: hidden;
 }
@@ -126,7 +130,7 @@
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 2rem;
 
-    @media screen and(max-width: 900px) {
+    @media screen and (max-width: 900px) {
       grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
     }
 
@@ -142,7 +146,7 @@
     border-radius: 5px;
     box-shadow: 0 0 15px 2px rgba(0,0,0,.2);
 
-    @media screen and(max-width: 600px) {
+    @media screen and (max-width: 600px) {
       max-height: 19rem;
     }
   }
@@ -209,7 +213,7 @@
 
     margin-top: 6rem;
 
-    @media screen and(max-width: 900px) {
+    @media screen and (max-width: 900px) {
       grid-template-rows: repeat(3, min-content);
     }
 
@@ -245,7 +249,7 @@
 
       font-size: 2.4rem;
 
-      @media screen and(max-width: 900px) {
+      @media screen and (max-width: 900px) {
         grid-column: 1 / -1;
         grid-row: auto;
       }
@@ -257,7 +261,7 @@
 
       font-size: 2rem;
 
-      @media screen and(max-width: 900px) {
+      @media screen and (max-width: 900px) {
         grid-column: 1 / -1;
         grid-row: auto;
       }
@@ -269,7 +273,7 @@
 
       font-size: 1.2rem;
 
-      @media screen and(max-width: 900px) {
+      @media screen and (max-width: 900px) {
         grid-column: 1 / -1;
         grid-row: auto;
       }
@@ -298,11 +302,11 @@
   &__item-position {
     font-size: 4em;
 
-    @media screen and(max-width: 900px) {
+    @media screen and (max-width: 900px) {
       font-size: 3em;
     }
 
-    @media screen and(max-width: 600px) {
+    @media screen and (max-width: 600px) {
       font-size: 2em;
     }
   }
@@ -310,11 +314,11 @@
     font-size: 2em;
     max-width: 46rem;
 
-    @media screen and(max-width: 900px) {
+    @media screen and (max-width: 900px) {
       max-width: 100%;
     }
 
-    @media screen and(max-width: 600px) {
+    @media screen and (max-width: 600px) {
       font-size: 1.75em;
     }
   }

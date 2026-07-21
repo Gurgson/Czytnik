@@ -1,3 +1,5 @@
+@use '../_globals' as *;
+
 .cart {
   display: grid;
   grid-template-columns: 65% 31%;

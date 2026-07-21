@@ -1,0 +1,13 @@
+{
+  "name": "czytnik-assets",
+  "version": "1.0.0",
+  "devDependencies": {
+    "sass": "^1.72.0",
+    "browser-sync": "^2.27.14"
+  },
+  "scripts": {
+    "build:sass": "sass --no-source-map Styles/site.scss:wwwroot/css/site.css",
+    "watch:sass": "sass --watch Styles/site.scss:wwwroot/css/site.css",
+    "serve": "browser-sync start --proxy \"https://localhost:5001\" --files \"wwwroot/css/site.css\" --no-open --no-ui"
+  }
+}

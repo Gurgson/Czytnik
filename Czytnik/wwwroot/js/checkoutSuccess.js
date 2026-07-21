@@ -8,20 +8,7 @@
      items = storage.getItem('cartItems');
    }
 
-  makeOrder();
-
-  function makeOrder() {
-    $.ajax({
-      url: '/Checkout/Order',
-      type: 'POST',
-      data: { products: items, type: storage.getItem('type') },
-      datatype: 'json',
-      success: function () {
-        console.log('success');
-        clearCart();
-      },
-    });
-  }
+  clearCart();
 
   function clearCart() {
     if (storage.getItem('type') == 'single') {

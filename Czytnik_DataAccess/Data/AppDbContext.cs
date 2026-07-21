@@ -7,12 +7,10 @@ namespace Czytnik_DataAccess.Database
 {
     public class AppDbContext : IdentityDbContext
     {
-        public AppDbContext(DbContextOptions options)
-        : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
         {
         }
-
-        //public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade DatabaseF { get; }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Series> Series { get; set; }
@@ -33,8 +31,14 @@ namespace Czytnik_DataAccess.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Keep Identity / other base mappings
             base.OnModelCreating(modelBuilder);
 
+            // Postgres-friendly annotations
+            // Limit identifier length to PostgreSQL default (63) and use Postgres identity generation
+            modelBuilder.HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            // Apply existing fluent configurations
             modelBuilder.ApplyConfiguration(new FluentAuthorConfig());
             modelBuilder.ApplyConfiguration(new FluentBookAuthorConfig());
             modelBuilder.ApplyConfiguration(new FluentBookConfig());
@@ -53,9 +57,5 @@ namespace Czytnik_DataAccess.Database
             modelBuilder.ApplyConfiguration(new FluentOrderConfig());
             modelBuilder.ApplyConfiguration(new FluentOrderItemConfig());
         }
-
-
     }
-
-    
 }

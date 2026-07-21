@@ -1,4 +1,6 @@
-﻿.review-form {
+﻿@use '../_globals' as *;
+
+.review-form {
     background-color: var(--color-white-dark);
     padding: 1.5rem;
     margin: 1rem 0;
@@ -29,7 +31,7 @@
         font-family: inherit;
         font-size: 1.6rem;
 
-        @media screen and(max-width: 900px) {
+        @media screen and (max-width: 900px) {
             width: 100%;
          }
     }

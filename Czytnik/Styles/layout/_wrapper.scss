@@ -1,4 +1,6 @@
-﻿.wrapper {
+﻿@use '../_globals' as *;
+
+.wrapper {
   width: Min(90vw,130rem);
   margin: 0 auto;
 }

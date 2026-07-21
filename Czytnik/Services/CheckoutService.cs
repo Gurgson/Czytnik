@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using static Czytnik.Controllers.CheckoutController;
 
@@ -17,11 +18,72 @@ namespace Czytnik.Services
         private readonly AppDbContext _dbContext;
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public CheckoutService(AppDbContext dbContext, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+        private readonly IEmailService _emailService;
+        public CheckoutService(AppDbContext dbContext, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, IEmailService emailService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _emailService = emailService;
+        }
+
+        public async Task<int?> FulfillOrder(Item[] items, string email, string userId, decimal paidAmount)
+        {
+            if (items == null || items.Length == 0) return null;
+
+            User user = null;
+            if (!string.IsNullOrEmpty(userId))
+                user = await _userManager.FindByIdAsync(userId);
+
+            var order = new Order { OrderDate = DateTime.Now, User = user };
+            await _dbContext.Orders.AddAsync(order);
+            await _dbContext.SaveChangesAsync();
+
+            foreach (Item item in items)
+            {
+                int bookId = Convert.ToInt32(item.Id);
+                var orderItem = new OrderItem
+                {
+                    OrderId = order.Id,
+                    BookId = bookId,
+                    Quantity = item.Quantity,
+                    Price = _dbContext.Books.Where(b => b.Id == bookId).Select(b => b.Price).FirstOrDefault()
+                };
+                await _dbContext.OrderItems.AddAsync(orderItem);
+                await _dbContext.SaveChangesAsync();
+                await UpdateNumberOfCopiesSold(bookId, item.Quantity);
+            }
+
+            var recipient = string.IsNullOrWhiteSpace(email) ? user?.Email : email;
+            if (!string.IsNullOrWhiteSpace(recipient))
+            {
+                var body = await BuildConfirmationEmail(order.Id, items, paidAmount);
+                await _emailService.SendAsync(recipient, $"Potwierdzenie zamówienia #{order.Id} — Czytnik", body);
+            }
+
+            return order.Id;
+        }
+
+        private async Task<string> BuildConfirmationEmail(int orderId, Item[] items, decimal paidAmount)
+        {
+            var ids = items.Select(i => Convert.ToInt32(i.Id)).ToList();
+            var books = await _dbContext.Books
+                .Where(b => ids.Contains(b.Id))
+                .Select(b => new { b.Id, b.Title })
+                .ToListAsync();
+
+            var rows = new StringBuilder();
+            foreach (var item in items)
+            {
+                var title = books.FirstOrDefault(b => b.Id == Convert.ToInt32(item.Id))?.Title ?? $"Książka #{item.Id}";
+                rows.Append($"<li>{System.Net.WebUtility.HtmlEncode(title)} × {item.Quantity}</li>");
+            }
+
+            return $@"<h2>Dziękujemy za zamówienie!</h2>
+<p>Numer zamówienia: <strong>#{orderId}</strong></p>
+<ul>{rows}</ul>
+<p>Zapłacono łącznie: <strong>{paidAmount:0.00} zł</strong> (w tym dostawa).</p>
+<p>To wiadomość automatyczna ze sklepu Czytnik.</p>";
         }
 
         public async Task AddOrder(Item[] items, string type)

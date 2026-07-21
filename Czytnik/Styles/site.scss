@@ -1,37 +1,47 @@
-@import 'abstracts/functions';
-@import 'abstracts/mixins';
-@import 'abstracts/variables';
+/* Use Sass modules (keeps existing unprefixed names via `as *`) */
 
-@import 'base/animations';
-@import 'base/base';
-@import 'base/typography';
-@import 'base/utilities';
+/* abstracts (variables first, then functions and mixins) */
+@use './abstracts/variables' as *;
+@use './abstracts/functions' as *;
+@use './abstracts/mixins' as *;
 
-@import 'layout/wrapper';
-@import 'layout/navigation';
-@import 'layout/footer';
+/* base */
+@use './base/animations' as *;
+@use './base/_base' as *;
+@use './base/typography' as *;
+@use './base/utilities' as *;
 
-@import 'pages/home';
-@import 'pages/categories';
-@import 'pages/product';
-@import 'pages/search';
-@import 'pages/reviewsList';
-@import 'pages/error';
-@import 'pages/user';
-@import 'pages/cart';
-@import 'pages/checkout';
+/* layout */
+@use './layout/wrapper' as *;
+@use './layout/navigation' as *;
+@use './layout/footer' as *;
 
-@import 'components/blur';
-@import 'components/categoryBox';
-@import 'components/button';
-@import 'components/spinner';
-@import 'components/form';
-@import 'components/starsRating';
-@import 'components/booksCarousel';
-@import 'components/sorting-header';
-@import 'components/reviewForm';
-@import 'components/filter';
-@import 'components/pagination';
-@import 'components/smallInput';
-@import 'components/bookItem';
-@import 'components/dropdown';
+/* pages */
+@use './pages/home' as *;
+@use './pages/categories' as *;
+@use './pages/product' as *;
+@use './pages/search' as *;
+@use './pages/reviewsList' as *;
+@use './pages/error' as *;
+@use './pages/user' as *;
+@use './pages/cart' as *;
+@use './pages/checkout' as *;
+
+/* components */
+@use './components/blur' as *;
+@use './components/categoryBox' as *;
+@use './components/button' as *;
+@use './components/spinner' as *;
+@use './components/form' as *;
+@use './components/starsRating' as *;
+@use './components/booksCarousel' as *;
+@use './components/sorting-header' as *;
+@use './components/reviewForm' as *;
+@use './components/filter' as *;
+@use './components/pagination' as *;
+@use './components/smallInput' as *;
+@use './components/bookItem' as *;
+@use './components/dropdown' as *;
+
+
+

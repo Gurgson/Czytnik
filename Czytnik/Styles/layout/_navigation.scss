@@ -1,3 +1,5 @@
+@use '../_globals' as *;
+
 .navigation {
   position: sticky;
   top: -1px;
@@ -356,3 +358,4 @@
     }
   }
 }
+   

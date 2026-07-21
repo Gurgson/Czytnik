@@ -1,3 +1,5 @@
+@use '../_globals' as *;
+
 .error {
     @include center-flex;
     flex-direction: column;

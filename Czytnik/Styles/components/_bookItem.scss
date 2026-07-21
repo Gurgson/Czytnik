@@ -1,3 +1,5 @@
+@use '../_globals' as *;
+
 .book-item {
     &__link {
         display: block;

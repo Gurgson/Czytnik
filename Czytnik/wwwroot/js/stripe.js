@@ -3,7 +3,6 @@
   const urlSearchParams = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(urlSearchParams.entries());
 
-  // The items the customer wants to buy
   let items = ""
   if(storage.getItem('type') == 'single'){
     items = storage.getItem('singleItem');
@@ -23,9 +22,7 @@
   let fullPrice = productsPrice + shipmentPrice;
   let shipKey = 'point1';
 
-  const stripe = Stripe(
-    'pk_test_51KPASKGvoTqJgR6RzCdDmq39pRUnOI2Eq1LuzdenzeylvGoPEKAwq6zHq8UViH1kxuPPnWYA6ufgk461eGrFFNjw00p3EdlduX'
-  );
+  const stripe = Stripe(document.getElementById('payment-form').dataset.stripePk);
 
   let key = '';
 
@@ -35,7 +32,6 @@
 
   document.querySelector('#payment-form').addEventListener('submit', handleSubmit);
 
-  // Fetches a payment intent and captures the client secret
   function initialize() {
     const shipment = new Map();
     shipment.set('point1', 0);
@@ -85,7 +81,13 @@
     $.ajax({
       url: '/Checkout/Update',
       type: 'PATCH',
-      data: { shipping: shipKey, key: key, products: items, type: storage.getItem('type')},
+      data: {
+        shipping: shipKey,
+        key: key,
+        products: items,
+        type: storage.getItem('type'),
+        email: (document.getElementById('email') || {}).value || ''
+      },
       datatype: 'json',
       success: async function (data) {
         console.log(data);
@@ -93,8 +95,7 @@
           const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-              // Make sure to change this to your payment completion page
-              return_url: 'https://localhost:5001/Checkout/Success',
+              return_url: window.location.origin + '/Checkout/Success',
             },
           });
 

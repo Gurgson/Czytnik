@@ -1,4 +1,6 @@
+@use '../_globals' as *;
 .user {
+
     display: grid;
     grid-template-columns: repeat(2,1fr);
     grid-template-rows: 35rem auto;
@@ -675,4 +677,39 @@
             }
         }
     }
+}
+
+.cart {
+  display: grid;
+  grid-template-columns: 65% 31%;
+  grid-gap: 0 4%;
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: 100%;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-grey-light);
+  }
+
+  &__title {
+    font-size: 2.4rem;
+    font-weight: 700;
+  }
+
+  &__quantity {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--color-grey);
+  }
+
+  &__container {
+    margin-top: 2.5rem;
+    margin-bottom: 6rem;
+  }
 }

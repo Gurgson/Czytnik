@@ -2,7 +2,7 @@
   ViewData["Title"] = "Płatność";
 }
 
-<form class="checkout wrapper" id="payment-form">
+<form class="checkout wrapper" id="payment-form" data-stripe-pk="@ViewData["StripePublishableKey"]">
   <header class="checkout__header">
     <div class="checkout__header-item checkout__header-item--cart">
       Koszyk
@@ -131,6 +131,20 @@
 
     <div class="checkout__payment">
       <h1 class="checkout__heading">Metoda płatności</h1>
+
+      @if ((ViewData["StripePublishableKey"] as string)?.StartsWith("pk_test") == true)
+      {
+        <div style="margin:0 0 16px;padding:12px 16px;border:1px dashed #b58900;border-radius:8px;background:#fff8e1;color:#5f4b00;font-size:14px;line-height:1.5;">
+          <strong>Tryb testowy — nie pobieramy prawdziwych pieniędzy.</strong>
+          <p style="margin:6px 0 0;">To projekt demonstracyjny (portfolio) — zamówienia nie są realnie realizowane ani wysyłane.</p>
+          <ul style="margin:8px 0 0;padding-left:18px;">
+            <li>Karta: <code>4242 4242 4242 4242</code>, dowolna przyszła data, dowolny CVC i kod pocztowy.</li>
+            <li>BLIK: dowolny 6-cyfrowy kod, np. <code>123456</code>.</li>
+            <li>Przelewy24: wybierz dowolny bank i zatwierdź płatność testową.</li>
+          </ul>
+        </div>
+      }
+
       <div id="payment-element">
 
       </div>

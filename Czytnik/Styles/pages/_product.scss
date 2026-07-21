@@ -1,3 +1,5 @@
+@use '../_globals' as *;
+
 .product {
     margin-top: 4rem;
 
@@ -12,7 +14,7 @@
     column-gap: 7rem;
     //position: relative;
 
-    @media screen and(max-width: 900px) {
+    @media screen and (max-width: 900px) {
         margin-top: 0;
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -44,7 +46,7 @@
 
         grid-area: header;
 
-        @media screen and(max-width: 600px) {
+        @media screen and (max-width: 600px) {
             flex-direction: column;
         }    
     }
@@ -60,7 +62,7 @@
             height: 100%;
         }
 
-        @media screen and(max-width: 600px) {
+        @media screen and (max-width: 600px) {
             margin: 0 auto 2rem auto;
         }
     }
@@ -183,7 +185,7 @@
 
         grid-area: cart;
 
-        @media screen and(max-width: 900px) {
+        @media screen and (max-width: 900px) {
             position: initial;
         }
     }
@@ -351,7 +353,7 @@
     &--5{--valCol: 65%;}
     &--6{--valCol: 100%;}
 
-    @media screen and(max-width: 900px) {
+    @media screen and (max-width: 900px) {
         width: 100%;
         grid-template-areas:
             "value info"

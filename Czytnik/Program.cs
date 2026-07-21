@@ -17,35 +17,8 @@ namespace Czytnik
     {
         public static void Main(string[] args)
         {
-            /// Kod do wrzucania danych
-            /*
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=czytnikdbserver.database.windows.net;Initial Catalog=Czytnik_db;User ID=baqardo;Password=zaq1@WSX;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            #region CustomSeeding
-            using (AppDbContext context = new AppDbContext(optionsBuilder.Options))
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                //context.Database.EnsureCreated();
-                //context.Database.OpenConnection();
-                try
-                {
-                    //Dodaj tutaj
-
-                    { }
-
-                    //Tutaj skończ
-                    //context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Books ON;");
-                    context.SaveChanges();
-                    //context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Books OFF;");
-                    transaction.Commit();
-                }
-                finally
-                {
-                    context.Database.CloseConnection();
-                }
-            }
-            #endregion*/
             CreateHostBuilder(args).Build().Run();
         }
 

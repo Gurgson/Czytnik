@@ -1,9 +1,11 @@
 using Czytnik.Services;
+using Czytnik.Settings;
 using Czytnik_DataAccess.Database;
 using Czytnik_Model.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,13 +28,31 @@ namespace Czytnik
 
     public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+
+      var stripeSecretKey = Configuration["Stripe:SecretKey"] ?? "";
+      var stripePublishableKey = Configuration["Stripe:PublishableKey"] ?? "";
+      var allowLiveMode = Configuration.GetValue<bool>("Stripe:AllowLiveMode");
+      if (!allowLiveMode &&
+          (stripeSecretKey.StartsWith("sk_live_") || stripePublishableKey.StartsWith("pk_live_")))
+      {
+        throw new InvalidOperationException(
+            "Wykryto klucz Stripe LIVE, a aplikacja jest zablokowana w trybie sandbox. " +
+            "Użyj kluczy testowych (sk_test_ / pk_test_). Aby świadomie włączyć realne płatności " +
+            "ustaw Stripe:AllowLiveMode=true.");
+      }
+
+      Stripe.StripeConfiguration.ApiKey = stripeSecretKey;
+
+      services.Configure<EmailSettings>(Configuration.GetSection("Email"));
+      services.AddTransient<IEmailService, EmailService>();
+
       services.AddDefaultIdentity<User>().AddEntityFrameworkStores<AppDbContext>();
       services.AddRazorPages().AddRazorRuntimeCompilation();
       services.AddDbContext<AppDbContext>(
-          config => config.UseSqlServer(Configuration.GetConnectionString("Application"))
+          config => config.UseNpgsql(Configuration.GetConnectionString("Application"))
       );
       services.AddControllersWithViews();
 
@@ -45,9 +65,16 @@ namespace Czytnik
       services.AddTransient<ICheckoutService, CheckoutService>();
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+      var forwardedOptions = new ForwardedHeadersOptions
+      {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+      };
+      forwardedOptions.KnownNetworks.Clear();
+      forwardedOptions.KnownProxies.Clear();
+      app.UseForwardedHeaders(forwardedOptions);
+
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
